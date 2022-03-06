@@ -1,39 +1,64 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 function Settings()
 {
+    const dispatch = useDispatch();
     const [options, setOptions] = useState(null);
-    const [loading, setLoading] = useState(null);
-    const [questionDifficulty, setQuestionDifficulty] = useState(null);
-    const [questionCategory, setQuestionCategory] = useState("");
-    const [questionType, setQuestionType] = useState("");
-    const [numberOfQuestions, setNumberofQuestions] = useState(50);
+
+    const loading = useSelector(state => state.options.loading);
+    const questionDifficulty = useSelector(state => state.options.questio_difficulty) ;
+    const questionCategory = useSelector(state => state.options.category);
+    const questionType = useSelector(state => state.options.question_type);
+    const numberOfQuestions = useSelector(state => state.options.amount_of_questions);
 
     useEffect(() => {
+
         const apiUrl = `https://opentdb.com/api_category.php`; 
+
+        const handleLoadingChange = value => {
+            dispatch({
+                type: 'CHANGE_LOADING',
+                loading: value
+            });
+        }
     
+        handleLoadingChange(true);
+
         fetch(apiUrl)
         .then((res) => res.json())
         .then((response) => {
-            setLoading(false);
+            handleLoadingChange(false);
             setOptions(response.trivia_categories);
         });
-    }, [setOptions]);
+    }, [setOptions, dispatch]);
 
     const handleCategoryChange = e => {
-        setQuestionCategory(e.target.value);
+        dispatch({
+            type: 'CHANGE_CATEGORY',
+            value: e.target.value,
+        })
     }
 
     const handleDifficulty = e => {
-        setQuestionDifficulty(e.target.value);
+        dispatch({
+            type: 'CHANGE_DIFFICULTY',
+            value: e.target.value,
+        })
     }
 
     const handleTypeChange = e => {
-        setQuestionType(e.target.value);
+        dispatch({
+            type: 'CHANGE_TYPE',
+            value: e.target.value,
+        })
     }
 
     const handleAmountChange = e => {
-        setNumberofQuestions(e.target.value);
+        dispatch({
+            type: 'CHANGE_AMOUNT',
+            value: e.target.value,
+        })
     }
 
     if (!loading) {

@@ -1,0 +1,59 @@
+const initState = {
+    options : {
+        loading: false,
+        question_category: ``,
+        question_difficulty: ``,
+        question_type: ``,
+        amount_of_questions: 50,
+    }
+}
+
+const Reducer = (state = initState, action) => {
+    // eslint-disable-next-line default-case
+    switch (action.type) {
+        case "CHANGE_LOADING":
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    loading: action.value
+                }
+            }
+        case "CHANGE_CATEGORY":
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    question_category: action.value
+                }
+            }
+        case "CHANGE_DIFFICULTY":
+            return {
+                ...state,
+                options: {
+                    ...state.options,
+                    question_difficult: action.value
+                }
+            }
+        case "CHANGE_TYPE":
+            return {
+                ...state,
+                options:{
+                    ...state.options,
+                    question_type: action.value
+                }
+            }
+        case "CHANGE_AMOUNT":
+            return {
+                ...state,
+                options:{
+                    ...state.options,
+                    amount_of_questions: action.value
+                }
+            }
+        default:
+            return state
+    }
+}
+
+export default Reducer;
