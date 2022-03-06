@@ -5,7 +5,10 @@ const initState = {
         question_difficulty: ``,
         question_type: ``,
         amount_of_questions: 50,
-    }
+    },
+    questions: [],
+    score: 0,
+    index: 0,
 }
 
 const Reducer = (state = initState, action) => {
@@ -50,6 +53,19 @@ const Reducer = (state = initState, action) => {
                     ...state.options,
                     amount_of_questions: action.value
                 }
+            }
+        case "SET_QUESTIONS":
+            return {
+                ...state,
+                options:{
+                    ...state.options,
+                    questions: action.questions
+                }
+            }
+        case "SET_SCORE":
+            return {
+                ...state,
+                score: action.score
             }
         default:
             return state

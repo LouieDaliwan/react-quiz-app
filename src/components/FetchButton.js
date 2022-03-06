@@ -2,11 +2,14 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 function FetchButton(props) {
+    
     const questionCategory = useSelector(state => state.options.question_category)
     const questionDifficulty = useSelector(state => state.options.question_difficulty)
     const questionType = useSelector(state => state.options.question_type)
     const questionAmount = useSelector(state => state.options.amount_of_questions)
     const questionIndex = useSelector(state => state.index)
+
+    const dispatch = useDispatch();
 
     const handleQuery = async () => {
         
@@ -24,10 +27,28 @@ function FetchButton(props) {
             apiUrl = apiUrl.concat(`&type=${questionType}`);
         }
 
+        const setLoading = value => {
+            dispatch({
+                type: 'CHANGE_LOADING',
+                loading: value,
+            })
+        }
+
+        const setQuestions = value => {
+            dispatch({
+                type: 'SET_QUESTIONS',
+                questions: value
+            })
+        }
+
+
+        setLoading(true);
         await fetch(apiUrl)
         .then((res) => res.json())
         .then((response) => {
-            console.table(response);
+            setQuestions(response.results);
+            setLoading(false);
+            console.table(response.results);
         });
     }
 

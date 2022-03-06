@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 function Settings()
 {
-    const dispatch = useDispatch();
     const [options, setOptions] = useState(null);
 
     const loading = useSelector(state => state.options.loading);
@@ -11,6 +10,8 @@ function Settings()
     const questionCategory = useSelector(state => state.options.category);
     const questionType = useSelector(state => state.options.question_type);
     const numberOfQuestions = useSelector(state => state.options.amount_of_questions);
+    
+    const dispatch = useDispatch();
 
     useEffect(() => {
 
